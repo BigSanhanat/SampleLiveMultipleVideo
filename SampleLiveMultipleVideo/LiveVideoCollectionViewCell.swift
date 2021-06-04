@@ -12,7 +12,8 @@ import VideoToolbox
 class LiveVideoCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "LiveVideoCollectionViewCell"
-    var mediaPlayer = VLCMediaPlayer()
+    private var mediaPlayer = VLCMediaPlayer()
+    private var bitRateTimer = Timer()
     
     @IBOutlet weak var liveVideoView: UIView!
     @IBOutlet weak var bitRateLabel: UILabel!
@@ -28,14 +29,23 @@ class LiveVideoCollectionViewCell: UICollectionViewCell {
         mediaPlayer.play()
     }
     
+    func startBitRateTimer() {
+        
+        bitRateTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true, block: { timer in
+            print("======== bit rate =========")
+            print(self.mediaPlayer.media.inputBitrate)
+            print(self.mediaPlayer.media.demuxBitrate)
+            print(self.mediaPlayer.media.streamOutputBitrate)
+        })
+        
+    }
+    
 }
 
 extension LiveVideoCollectionViewCell: VLCMediaDelegate {
-//    func mediaMetaDataDidChange(_ aMedia: VLCMedia) {
-//        print(aMedia.inputBitrate)
-//        print(aMedia.demuxBitrate)
-//        print(aMedia.streamOutputBitrate)
-//    }
+    func mediaMetaDataDidChange(_ aMedia: VLCMedia) {
+        startBitRateTimer()
+    }
     
 //    func mediaDidFinishParsing(_ aMedia: VLCMedia) {
 //        print(aMedia.inputBitrate)
