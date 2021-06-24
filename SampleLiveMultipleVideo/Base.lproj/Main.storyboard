@@ -44,12 +44,28 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         </view>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e3l-eO-WXb">
+                                                            <rect key="frame" x="14" y="98" width="100" height="30"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.75290301056946218" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="100" id="mZb-KG-uXe"/>
+                                                                <constraint firstAttribute="height" constant="30" id="y1h-x3-Z6I"/>
+                                                            </constraints>
+                                                            <state key="normal" title="Snap">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="snapShotButton_Clicked:" destination="1rk-CY-J3E" eventType="touchUpInside" id="HoJ-Eg-jIz"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="Em4-9V-pcP" firstAttribute="top" secondItem="5Xk-MF-0k3" secondAttribute="top" id="AOP-m5-Ht5"/>
+                                                        <constraint firstItem="e3l-eO-WXb" firstAttribute="centerX" secondItem="5Xk-MF-0k3" secondAttribute="centerX" id="DWW-XW-pwO"/>
                                                         <constraint firstAttribute="trailing" secondItem="Em4-9V-pcP" secondAttribute="trailing" id="VBK-AJ-vcJ"/>
                                                         <constraint firstAttribute="bottom" secondItem="Em4-9V-pcP" secondAttribute="bottom" id="X3q-iV-DP3"/>
                                                         <constraint firstItem="Em4-9V-pcP" firstAttribute="leading" secondItem="5Xk-MF-0k3" secondAttribute="leading" id="d4Y-ma-SgG"/>
+                                                        <constraint firstAttribute="bottom" secondItem="e3l-eO-WXb" secondAttribute="bottom" id="lSR-9Z-Gbm"/>
                                                     </constraints>
                                                 </collectionViewCellContentView>
                                                 <connections>

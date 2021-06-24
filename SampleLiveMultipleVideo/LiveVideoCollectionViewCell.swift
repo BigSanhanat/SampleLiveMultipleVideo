@@ -25,8 +25,29 @@ class LiveVideoCollectionViewCell: UICollectionViewCell {
         let media = VLCMedia(url: liveUrl)
         mediaPlayer.media = media
         mediaPlayer.media.delegate = self
+        mediaPlayer.delegate = self
         mediaPlayer.audio.isMuted = true
         mediaPlayer.play()
+    }
+    
+    @IBAction func snapShotButton_Clicked(_ sender: Any) {
+//        if let view = (self.mediaPlayer.drawable as? UIView) {
+//            let size = view.frame.size
+//            UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
+//
+//            let rec = view.frame
+//            view.drawHierarchy(in: rec, afterScreenUpdates: false)
+//
+//            let image = UIGraphicsGetImageFromCurrentImageContext();
+//            UIGraphicsEndImageContext();
+//
+//            if let img = image {
+//                UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
+//            }
+//        }
+        if let image = self.mediaPlayer.lastSnapshot {
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+        }
     }
     
     func startBitRateTimer() {
@@ -37,14 +58,12 @@ class LiveVideoCollectionViewCell: UICollectionViewCell {
             print(self.mediaPlayer.media.demuxBitrate)
             print(self.mediaPlayer.media.streamOutputBitrate)
         })
-        
     }
-    
 }
 
 extension LiveVideoCollectionViewCell: VLCMediaDelegate {
     func mediaMetaDataDidChange(_ aMedia: VLCMedia) {
-        startBitRateTimer()
+//        startBitRateTimer()
     }
     
 //    func mediaDidFinishParsing(_ aMedia: VLCMedia) {
@@ -52,4 +71,19 @@ extension LiveVideoCollectionViewCell: VLCMediaDelegate {
 //        print(aMedia.demuxBitrate)
 //        print(aMedia.streamOutputBitrate)
 //    }
+}
+
+extension LiveVideoCollectionViewCell: VLCMediaPlayerDelegate {
+    func mediaPlayerStateChanged(_ aNotification: Notification!) {
+        //        print("player state changed")
+        if let mediaPlayer = aNotification.object as? VLCMediaPlayer {
+            print("======== State Changed =========")
+            print(mediaPlayer.media.inputBitrate)
+            print(mediaPlayer.media.demuxBitrate)
+            print(mediaPlayer.media.streamOutputBitrate)
+            print("is playing =",mediaPlayer.isPlaying)
+            print("media state = ",mediaPlayer.state.rawValue)
+        }
+        
+    }
 }
