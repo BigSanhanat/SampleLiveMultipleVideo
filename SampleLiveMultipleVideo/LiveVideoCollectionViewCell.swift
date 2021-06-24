@@ -45,8 +45,23 @@ class LiveVideoCollectionViewCell: UICollectionViewCell {
 //                UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
 //            }
 //        }
-        if let image = self.mediaPlayer.lastSnapshot {
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+//        if let image = self.mediaPlayer.lastSnapshot {
+//            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+//        }
+    
+        if self.mediaPlayer.hasVideoOut {
+            let desPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).last ?? ""
+            let fileName = "\(Date().timeIntervalSince1970 * 1000).png"
+            let desPathFile = desPath.appending(fileName)
+            let videoSize = self.mediaPlayer.videoSize
+            self.mediaPlayer.accessibilityLabel = fileName
+            self.mediaPlayer.saveVideoSnapshot(at: desPathFile, withWidth: Int32(videoSize.width), andHeight: Int32(videoSize.height))
+            //        if let mediaPlayer = aNotification.object as? VLCMediaPlayer {
+            if let image = self.mediaPlayer.lastSnapshot {
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+                print("snap shot success")
+            }
+            //        }
         }
     }
     
@@ -85,5 +100,20 @@ extension LiveVideoCollectionViewCell: VLCMediaPlayerDelegate {
             print("media state = ",mediaPlayer.state.rawValue)
         }
         
+    }
+    
+    func mediaPlayerSnapshot(_ aNotification: Notification!) {
+//        if let mediaPlayer = aNotification.object as? VLCMediaPlayer {
+//            print(mediaPlayer.accessibilityLabel)
+//            print(self.mediaPlayer.accessibilityLabel)
+//            if let accessibilityLabel = mediaPlayer.accessibilityLabel {
+//                if accessibilityLabel == self.mediaPlayer.accessibilityLabel {
+//                    if let image = mediaPlayer.lastSnapshot {
+//                        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+//                    }
+//                }
+//            }
+//
+//        }
     }
 }
