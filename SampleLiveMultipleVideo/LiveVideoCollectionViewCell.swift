@@ -25,7 +25,7 @@ class LiveVideoCollectionViewCell: UICollectionViewCell {
         let media = VLCMedia(url: liveUrl)
         mediaPlayer.media = media
         mediaPlayer.media.delegate = self
-        mediaPlayer.delegate = self
+//        mediaPlayer.delegate = self
         mediaPlayer.audio.isMuted = true
         mediaPlayer.play()
     }
@@ -55,12 +55,14 @@ class LiveVideoCollectionViewCell: UICollectionViewCell {
             let desPathFile = desPath.appending(fileName)
             let videoSize = self.mediaPlayer.videoSize
             self.mediaPlayer.accessibilityLabel = fileName
+            self.mediaPlayer.delegate = self
             self.mediaPlayer.saveVideoSnapshot(at: desPathFile, withWidth: Int32(videoSize.width), andHeight: Int32(videoSize.height))
+            
             //        if let mediaPlayer = aNotification.object as? VLCMediaPlayer {
-            if let image = self.mediaPlayer.lastSnapshot {
-                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-                print("snap shot success")
-            }
+//            if let image = self.mediaPlayer.lastSnapshot {
+//                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+//                print("snap shot success")
+//            }
             //        }
         }
     }
@@ -103,17 +105,18 @@ extension LiveVideoCollectionViewCell: VLCMediaPlayerDelegate {
     }
     
     func mediaPlayerSnapshot(_ aNotification: Notification!) {
-//        if let mediaPlayer = aNotification.object as? VLCMediaPlayer {
-//            print(mediaPlayer.accessibilityLabel)
-//            print(self.mediaPlayer.accessibilityLabel)
-//            if let accessibilityLabel = mediaPlayer.accessibilityLabel {
-//                if accessibilityLabel == self.mediaPlayer.accessibilityLabel {
-//                    if let image = mediaPlayer.lastSnapshot {
-//                        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-//                    }
-//                }
-//            }
-//
-//        }
+        if let mediaPlayer = aNotification.object as? VLCMediaPlayer {
+            print(mediaPlayer.accessibilityLabel)
+            print(self.mediaPlayer.accessibilityLabel)
+            if let accessibilityLabel = mediaPlayer.accessibilityLabel {
+                if accessibilityLabel == self.mediaPlayer.accessibilityLabel {
+                    if let image = mediaPlayer.lastSnapshot {
+                        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+                        self.mediaPlayer.delegate = nil
+                    }
+                }
+            }
+
+        }
     }
 }
